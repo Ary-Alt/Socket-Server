@@ -30,11 +30,13 @@ public agregar (usuario: Usuario){
         return this.lista;
 
     }
-    
+     //
+
     public getUsuario(id: string){
         return this.lista.find( Usuario => Usuario.id === id);
    
     }
+ //
 
     public getUsuariosEnSala( sala: string){
         return this.lista.filter(Usuario => Usuario.sala === sala);
