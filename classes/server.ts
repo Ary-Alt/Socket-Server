@@ -4,18 +4,18 @@ import socketIO from 'socket.io';
 import http from 'http';
 import * as socket from '../sockets/sockets'
 
-export  default class Server
-{
-    /*private static _instance: Server;*/
+export  default class Server {
 
-    public app: express.Application;
-    public port: number;
+   private static _instance: Server;
 
-    public io: socketIO.Server;
-    private httpServer: http.Server;
-   static instance: any;
+   public app: express.Application;
+   public port: number;
 
-    constructor(){
+   public io: socketIO.Server;
+   private httpServer: http.Server;
+//    static instance: any;
+
+   private constructor(){
         this.app = express();
         this.port = SERVER_PORT;
         this.httpServer = new http.Server( this.app );
@@ -27,9 +27,9 @@ export  default class Server
         this.escucharSockets();
     }
 
-    /*public static get instance (){
+    public static get instance (){
         return this._instance || ( this._instance = new this() );
-    }*/
+    }
 
     private escucharSockets(){
         console.log('Escuchando conexiones - sockets');
