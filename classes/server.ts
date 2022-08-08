@@ -4,18 +4,18 @@ import socketIO from 'socket.io';
 import http from 'http';
 import * as socket from '../sockets/sockets'
 
-export  default class Server {
+export  default class Server 
+{
+    private static _instance: Server;
 
-   private static _instance: Server;
+    public app: express.Application;
+    public port: number;
 
-   public app: express.Application;
-   public port: number;
-
-   public io: socketIO.Server;
-   private httpServer: http.Server;
+    public io: socketIO.Server;
+    private httpServer: http.Server;
 //    static instance: any;
 
-   private constructor(){
+    private constructor(){
         this.app = express();
         this.port = SERVER_PORT;
         this.httpServer = new http.Server( this.app );
@@ -28,7 +28,7 @@ export  default class Server {
     }
 
     public static get instance (){
-        return this._instance || ( this._instance = new this() );
+         return this._instance || ( this._instance = new this() );
     }
 
     private escucharSockets(){
@@ -36,13 +36,16 @@ export  default class Server {
         this.io.on('connection', (cliente)=>{
             // console.log('Cliente conectado');
 
-            socket.conectarCliente( cliente );
+            socket.conectarCliente( cliente, this.io );
 
             socket.configurarUsuario( cliente, this.io );
+            
+            //Obtner usuarios activos
+            socket.ObtenerUsuarios( cliente, this.io);
 
             socket.mensaje(cliente, this.io);
                 //Para q se deconecte 
-            socket.desconectar(cliente);
+            socket.desconectar(cliente, this.io);
         });
 
     }
